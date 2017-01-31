@@ -30,7 +30,7 @@
 -(void)setBackColorWithR:(NSInteger)r G:(NSInteger)g B:(NSInteger)b A:(CGFloat)a;
 
 /**
- 设置网页名称  **** 此方法会设置所有的网页 使用了其他修改或者指定url的方法不能和此方法同用 ****
+ 设置网页名称  
 
  @param urlName 网页名称
  @param r 网页标签颜色
