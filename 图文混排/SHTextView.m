@@ -10,9 +10,13 @@
 
 @interface SHTextView()<UIWebViewDelegate>
 
+@property (nonatomic, assign) NSRange urlRange;
+
 @end
 
 @implementation SHTextView
+
+
 
 -(instancetype)init
 {
@@ -91,22 +95,24 @@
 -(void)setUrlName:(NSString *)urlName andColorR:(NSInteger)r G:(NSInteger)g B:(NSInteger)b A:(CGFloat)a underline:(BOOL)isLine
 {
     NSString *textStr = self.text;
-    NSArray *resultArr = [self searchUrlWithString:textStr];
+
+    NSString *urlName_str = [self searchUrlWithString:textStr];
     
-    
-    for (NSString *urlName_str in resultArr)
+    while (urlName_str.length > 0)
     {
-                
+        NSString *uName = nil;
         if (isLine)
         {
-            NSString *uName = [NSString stringWithFormat:@"<a href='%@'style='color:rgba(%zd,%zd,%zd,%f)'>%@</a>",urlName_str,r,g,b,a,urlName];
-            textStr = [textStr stringByReplacingOccurrencesOfString:urlName_str withString:uName];
+            uName = [NSString stringWithFormat:@"<a href='%@'style='color:rgba(%zd,%zd,%zd,%f)'>%@</a>",urlName_str,r,g,b,a,urlName];
         }else
         {
-            NSString *uName = [NSString stringWithFormat:@"<a href='%@'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",urlName_str,r,g,b,a,urlName];
-            textStr = [textStr stringByReplacingOccurrencesOfString:urlName_str withString:uName];
+            uName = [NSString stringWithFormat:@"<a href='%@'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",urlName_str,r,g,b,a,urlName];
         }
         
+        textStr = [textStr stringByReplacingOccurrencesOfString:urlName_str withString:uName options:0 range:self.urlRange];
+        urlName_str = [self searchUrlWithString:textStr];
+
+
     }
     
     [self setText:textStr];
@@ -147,7 +153,7 @@
 -(void)replaceImage:(NSString *)imagePath withUrl:(NSString *)urlStr withSubStr:(NSString *)subStr
 {
     NSRange range = [self.text rangeOfString:subStr];
-    NSMutableString *textStrM = [NSMutableString stringWithString:self.text];
+    NSString *textStrM = [NSMutableString stringWithString:self.text];
     
     if (range.length>0)
     {
@@ -199,7 +205,7 @@
     [self setText:js];
 }
 
--(NSArray*)searchUrlWithString:(NSString*)str
+-(NSString*)searchUrlWithString:(NSString*)str
 {
     
     NSString *regulaStr = @"((http[s]{0,1}|ftp)://[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)|(www.[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)";
@@ -212,18 +218,29 @@
         return nil;
     }
     
+    NSString *textStr = str;
+    NSInteger index = 0;
+    
     //匹配字符串
     NSTextCheckingResult *result;
-    NSMutableArray *url_arr = [NSMutableArray array];
-    while((result = [reg firstMatchInString:str options:0 range:NSMakeRange(0, str.length)]))
+    while((result = [reg firstMatchInString:textStr options:0 range:NSMakeRange(0, textStr.length)]))
     {
-        NSString *urlStr = [str substringWithRange:result.range];
-        [url_arr addObject:urlStr];
-        str = [str substringFromIndex:result.range.location + result.range.length];
+        NSString *urlStr = [textStr substringWithRange:result.range];
+        
+        NSString *hrefStr = [textStr substringWithRange:NSMakeRange((result.range.location-9), 9)];
+        
+        if (!([hrefStr rangeOfString:@"href="].length>0 ||[hrefStr rangeOfString:@"src="].length>0))
+        {
+            index = [str rangeOfString:textStr].location;
+            self.urlRange = NSMakeRange(index + result.range.location,result.range.length);
+            return urlStr;
+        }
+        textStr = [textStr substringFromIndex:(result.range.location + result.range.length)];
+        
 
     }
     
-    return url_arr;
+    return nil;
 
 }
 

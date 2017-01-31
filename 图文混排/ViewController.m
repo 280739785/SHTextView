@@ -23,10 +23,10 @@
 
     
     self.MyWebView.text = @"http://www.baidu.com圆圈勾勒成指纹 印在我的嘴唇 回忆苦涩的吻痕 是树根 春去秋来的茂盛 却遮住了黄昏 寒夜剩我一个人 等清晨 世间最毒的仇恨 是有缘却无分 可惜你从未心疼 我的笨 荒草丛生的青春 倒也过的安稳 代替你陪着我的 是年轮 数着一圈圈年轮 我认真 将心事都封存 密密麻麻是我的自尊 修改一次次离分 我承认 曾幻想过永恒 可惜从没人陪我演这剧本  \r\n 圆圈勾勒成指纹 印在我的嘴唇 回忆苦涩的吻痕 是树根 春去秋来的茂盛13634679713 却遮住了黄昏 寒夜剩我一个人 等清晨 世间最毒的仇恨 是有缘却无分 可惜你从未心疼 我的笨 荒草丛生的青春 倒也过的安稳 代替你陪着我的 是年轮 数着一圈圈年轮 我认真 将心事都封存 密密麻麻是我的自尊 修改一次次离分 我承认 曾幻想过永恒 可惜从没人陪我演这剧本 \n 一圈圈年轮 我认真 将心事都封存 密密麻麻是我的自尊 修改一次次离分 我承认 曾幻想过永恒 可惜从没人陪我演这剧本   可惜从没人陪我演这剧本http://www.weibo.com";
-    self.MyWebView.fontSize = 18;
+    NSLog(@"%zd",self.MyWebView.text.length);
+    self.MyWebView.fontSize = 15;
     [self.MyWebView setBackColorWithR:255 G:255 B:0 A:0.2];
     
-    //该方法不能同其他设置url的方法同用
 //    [self.MyWebView setUrlName:@"#网页链接" andColorR:0 G:255 B:0 A:1 underline:YES];
     
     //插入图片
@@ -48,6 +48,8 @@
     [self.MyWebView replaceAtStr:@"百度" AtStrColorR:255 G:0 B:0 A:1 Url:@"http:baidu.com" SubStr:@"http://www.baidu.com"];
     
     [self.MyWebView replaceAtStr:@"微博" AtStrColorR:255 G:0 B:0 A:1 Url:@"http://www.weibo.com" SubStr:@"http://www.weibo.com"];
+    
+    [self.MyWebView setUrlName:@"#网页链接" andColorR:0 G:255 B:0 A:1 underline:YES];
 
 }
 
