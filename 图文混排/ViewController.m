@@ -26,7 +26,7 @@
     self.MyWebView.fontSize = 18;
     [self.MyWebView setBackColorWithR:255 G:255 B:0 A:0.2];
     
-    //该方法不能同其他设置url的方法通同用
+    //该方法不能同其他设置url的方法同用
 //    [self.MyWebView setUrlName:@"#网页链接" andColorR:0 G:255 B:0 A:1 underline:YES];
     
     //插入图片
@@ -38,7 +38,7 @@
     [self.MyWebView replaceImage:@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1485742601&di=23c9814bfc4d3af2337831f1539ef990&src=http://img.zcool.cn/community/01b76b567269176ac725ad90332d60.jpg" withUrl:nil withSubStr:@"圆圈勾勒成指纹"];
 
     [self.MyWebView replaceImage:@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1485742601&di=23c9814bfc4d3af2337831f1539ef990&src=http://img.zcool.cn/community/01b76b567269176ac725ad90332d60.jpg" withUrl:@"http://www.baidu.com" withSubStr:@"曾幻想过永恒"];
-    
+
     //将字符串替换成超链接
     [self.MyWebView replaceAtStr:@"@张三" AtStrColorR:255 G:9 B:0 A:1 Url:@"http://www.baidu.com" SubStr:@"印在我的嘴唇"];
     
@@ -47,7 +47,7 @@
     //将指定网址替换成字符串
     [self.MyWebView replaceAtStr:@"百度" AtStrColorR:255 G:0 B:0 A:1 Url:@"http:baidu.com" SubStr:@"http://www.baidu.com"];
     
-    [self.MyWebView replaceAtStr:@"微博" AtStrColorR:255 G:0 B:0 A:1 Url:@"http:baidu.com" SubStr:@"http://www.weibo.com"];
+    [self.MyWebView replaceAtStr:@"微博" AtStrColorR:255 G:0 B:0 A:1 Url:@"http://www.weibo.com" SubStr:@"http://www.weibo.com"];
 
 }
 

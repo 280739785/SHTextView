@@ -10,13 +10,9 @@
 
 @interface SHTextView()<UIWebViewDelegate>
 
-
 @end
 
 @implementation SHTextView
-
-
-
 
 -(instancetype)init
 {
@@ -54,11 +50,9 @@
         text = [text stringByReplacingOccurrencesOfString:@"\r\n" withString:@"<br/>"];
     }
     
-    
     NSRange nRange = [text rangeOfString:@"\n"];
     if (nRange.length>0)
     {
-        NSLog(@"%zd",nRange.location);
         text = [text stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
     }
 
@@ -102,6 +96,7 @@
     
     for (NSString *urlName_str in resultArr)
     {
+                
         if (isLine)
         {
             NSString *uName = [NSString stringWithFormat:@"<a href='%@'style='color:rgba(%zd,%zd,%zd,%f)'>%@</a>",urlName_str,r,g,b,a,urlName];
@@ -133,14 +128,16 @@
         if (urlStr.length>0)
         {
             imageStr = [NSString stringWithFormat:@"<a href='%@'><img src='%@'width='%fxp' height='%fxp'></a>",urlStr,imagePath,imageH,imageH];
+            
+
         }else
         {
             imageStr = [NSString stringWithFormat:@"<img src='%@'width='%fxp' height='%fxp'>",imagePath,imageH,imageH];
+
         }
         
         
         [textStrM insertString:imageStr atIndex:range.location];
-        
         [self setText:textStrM];
         
     }
@@ -156,17 +153,21 @@
     {
         CGFloat imageH = [self.text sizeWithFont:[UIFont systemFontOfSize:self.fontSize]].height- self.fontSize/4;
         NSString *imageStr = nil;
+        NSString* textStr;
         if (urlStr.length>0)
         {
             imageStr = [NSString stringWithFormat:@"<a href='%@'><img src='%@'width='%fxp' height='%fxp'></a>",urlStr,imagePath,imageH,imageH];
+            
+            
         }else
         {
             imageStr = [NSString stringWithFormat:@"<img src='%@'width='%fxp' height='%fxp'>",imagePath,imageH,imageH];
+
         }
         
-        
         //只替换第一个 替换所以  换成stringByReplacingOccurrencesOfString: withString:
-        NSString* textStr = [textStrM stringByReplacingOccurrencesOfString:subStr withString:imageStr options:0 range:range];
+        textStr = [textStrM stringByReplacingOccurrencesOfString:subStr withString:imageStr options:0 range:range];
+        
         
         [self setText:textStr];
     }
@@ -185,14 +186,15 @@
         {
             atStrJs = [NSString stringWithFormat:@"<a href='%@'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",urlStr,r,g,b,a,atStr];
             
-            js = [js stringByReplacingOccurrencesOfString:subStr withString:atStrJs options:0 range:range];
+
         }else
         {
             atStrJs = [NSString stringWithFormat:@"<a href='#'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",r,g,b,a,atStr];
             
-            js = [js stringByReplacingOccurrencesOfString:subStr withString:atStrJs options:0 range:range];
         }
     }
+    
+    js = [js stringByReplacingOccurrencesOfString:subStr withString:atStrJs options:0 range:range];
     
     [self setText:js];
 }
@@ -240,4 +242,6 @@
     
     return NO;
 }
+
+
 @end
