@@ -48,6 +48,20 @@
 -(void)setText:(NSString *)text
 {
 
+    NSRange rRange = [text rangeOfString:@"\r\n"];
+    if (rRange.length>0)
+    {
+        text = [text stringByReplacingOccurrencesOfString:@"\r\n" withString:@"<br/>"];
+    }
+    
+    
+    NSRange nRange = [text rangeOfString:@"\n"];
+    if (nRange.length>0)
+    {
+        NSLog(@"%zd",nRange.location);
+        text = [text stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
+    }
+
     _text = text;
     
 
