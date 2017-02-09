@@ -18,9 +18,16 @@
 
 
 /**
- 字体大小
+ 字体大小 默认为10
  */
 @property (nonatomic, assign) CGFloat fontSize;
+
+
+
+/**
+ 获取webView的实际高度 会随着文本变化而变化
+ */
+@property (nonatomic, assign,readonly) CGFloat height;
 
 
 

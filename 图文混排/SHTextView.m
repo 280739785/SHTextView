@@ -16,17 +16,14 @@
 
 @implementation SHTextView
 
-
+static NSString *aString =   @"<a  href=";
+static NSString *imgString = @"<img src=";
 
 -(instancetype)init
 {
     if (self = [super init])
     {
-        self.scrollView.scrollEnabled = NO;
-        self.delegate = self;
-        
-        NSString *textStr = [NSString stringWithFormat:@"document.write('<div id=\"divId\"></div>');"];
-        [self stringByEvaluatingJavaScriptFromString:textStr];
+        [self creatDiv];
 
     }
     return self;
@@ -35,14 +32,43 @@
 -(void)awakeFromNib
 {
     [super awakeFromNib];
+    
+    [self creatDiv];
+    
+}
+
+-(void)creatDiv
+{
     self.scrollView.scrollEnabled = NO;
     self.delegate = self;
     NSString *textStr = [NSString stringWithFormat:@"document.write('<div id=\"divId\"></div>');"];
     [self stringByEvaluatingJavaScriptFromString:textStr];
     
+    //间距
+    NSString *js = @" var body = document.getElementsByTagName('body')[0];body.style.margin = '5px';";
+    [self stringByEvaluatingJavaScriptFromString:js];
+    
+    
+    //禁止缩放
+    NSString *js2 = @"var script = document.createElement('meta');"
+    "script.name = 'viewport';"
+    "script.content=\"width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0, user-scalable=no\";"
+    "document.getElementsByTagName('head')[0].appendChild(script);";
+    [self stringByEvaluatingJavaScriptFromString:js2];
+    self.fontSize = 10;
     
 }
 
+
+-(CGFloat)height
+{
+    NSString *js1 = @"var d = document.getElementById('divId');";
+    NSString *js2 = @"d.offsetHeight;";
+    [self stringByEvaluatingJavaScriptFromString:js1];
+
+    //加双间距
+    return [[self stringByEvaluatingJavaScriptFromString:js2] floatValue] + 10;
+}
 
 
 -(void)setText:(NSString *)text
@@ -76,7 +102,7 @@
 {
     _fontSize = fontSize;
     
-    NSString *textStr = [NSString stringWithFormat:@" var div = document.getElementById('divId');div.style.fontSize = \"%fpx\";",self.fontSize];
+    NSString *textStr = [NSString stringWithFormat:@"var d = document.getElementsByTagName('body')[0];d.style.fontSize = \"%fpx\";",self.fontSize];
     [self stringByEvaluatingJavaScriptFromString:textStr];
 }
 
@@ -85,10 +111,8 @@
 -(void)setBackColorWithR:(NSInteger)r G:(NSInteger)g B:(NSInteger)b A:(CGFloat)a
 {
 
-    NSString *textStr = [NSString stringWithFormat:@"var div = document.getElementById('divId');div.style.backgroundColor ='rgba(%zd,%zd,%zd,%f)';",r,g,b,a];
+    NSString *textStr = [NSString stringWithFormat:@"var d = document.getElementsByTagName('body')[0];d.style.backgroundColor ='rgba(%zd,%zd,%zd,%f)';",r,g,b,a];
     [self stringByEvaluatingJavaScriptFromString:textStr];
-
-
 }
 
 
@@ -103,10 +127,10 @@
         NSString *uName = nil;
         if (isLine)
         {
-            uName = [NSString stringWithFormat:@"<a href='%@'style='color:rgba(%zd,%zd,%zd,%f)'>%@</a>",urlName_str,r,g,b,a,urlName];
+            uName = [NSString stringWithFormat:@"%@'%@'style='color:rgba(%zd,%zd,%zd,%f)'>%@</a>",aString,urlName_str,r,g,b,a,urlName];
         }else
         {
-            uName = [NSString stringWithFormat:@"<a href='%@'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",urlName_str,r,g,b,a,urlName];
+            uName = [NSString stringWithFormat:@"%@'%@'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",aString,urlName_str,r,g,b,a,urlName];
         }
         
         textStr = [textStr stringByReplacingOccurrencesOfString:urlName_str withString:uName options:0 range:self.urlRange];
@@ -129,16 +153,17 @@
     
     if (range.length>0)
     {
-        CGFloat imageH = [self.text sizeWithFont:[UIFont systemFontOfSize:self.fontSize]].height- self.fontSize/4;
+        NSDictionary *atts = @{NSFontAttributeName:[UIFont systemFontOfSize:self.fontSize]};
+        CGFloat imageH = [self.text sizeWithAttributes:atts].height - self.fontSize/4;
         NSString *imageStr = nil;
         if (urlStr.length>0)
         {
-            imageStr = [NSString stringWithFormat:@"<a href='%@'><img src='%@'width='%fxp' height='%fxp'></a>",urlStr,imagePath,imageH,imageH];
+            imageStr = [NSString stringWithFormat:@"%@'%@'>%@'%@'width='%fxp' height='%fxp'></a>",aString,urlStr,imgString,imagePath,imageH,imageH];
             
 
         }else
         {
-            imageStr = [NSString stringWithFormat:@"<img src='%@'width='%fxp' height='%fxp'>",imagePath,imageH,imageH];
+            imageStr = [NSString stringWithFormat:@"%@'%@'width='%fxp' height='%fxp'>",imgString,imagePath,imageH,imageH];
 
         }
         
@@ -152,26 +177,29 @@
 
 -(void)replaceImage:(NSString *)imagePath withUrl:(NSString *)urlStr withSubStr:(NSString *)subStr
 {
+    if ([self isHtmlTagUrlWithSubstring:subStr]) return;
+    
     NSRange range = [self.text rangeOfString:subStr];
     NSString *textStrM = [NSMutableString stringWithString:self.text];
     
     if (range.length>0)
     {
-        CGFloat imageH = [self.text sizeWithFont:[UIFont systemFontOfSize:self.fontSize]].height- self.fontSize/4;
+        NSDictionary *atts = @{NSFontAttributeName:[UIFont systemFontOfSize:self.fontSize]};
+        CGFloat imageH = [self.text sizeWithAttributes:atts].height - self.fontSize/4;
         NSString *imageStr = nil;
         NSString* textStr;
         if (urlStr.length>0)
         {
-            imageStr = [NSString stringWithFormat:@"<a href='%@'><img src='%@'width='%fxp' height='%fxp'></a>",urlStr,imagePath,imageH,imageH];
+            imageStr = [NSString stringWithFormat:@"%@'%@'>%@'%@'width='%fxp' height='%fxp'></a>",aString,urlStr,imgString,imagePath,imageH,imageH];
             
             
         }else
         {
-            imageStr = [NSString stringWithFormat:@"<img src='%@'width='%fxp' height='%fxp'>",imagePath,imageH,imageH];
+            imageStr = [NSString stringWithFormat:@"%@'%@'width='%fxp' height='%fxp'>",imgString,imagePath,imageH,imageH];
 
         }
         
-        //只替换第一个 替换所以  换成stringByReplacingOccurrencesOfString: withString:
+        //只替换第一个 替换所有  换成stringByReplacingOccurrencesOfString: withString:
         textStr = [textStrM stringByReplacingOccurrencesOfString:subStr withString:imageStr options:0 range:range];
         
         
@@ -183,6 +211,8 @@
 
 -(void)replaceAtStr:(NSString *)atStr AtStrColorR:(NSInteger)r G:(NSInteger)g B:(NSInteger)b A:(CGFloat)a Url:(NSString *)urlStr SubStr:(NSString *)subStr
 {
+    if ([self isHtmlTagUrlWithSubstring:subStr]) return;
+    
     NSRange range = [self.text rangeOfString:subStr];
     NSString *js = self.text;
     NSString *atStrJs;
@@ -190,12 +220,12 @@
     {
         if (urlStr.length>0)
         {
-            atStrJs = [NSString stringWithFormat:@"<a href='%@'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",urlStr,r,g,b,a,atStr];
+            atStrJs = [NSString stringWithFormat:@"%@'%@'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",aString,urlStr,r,g,b,a,atStr];
             
 
         }else
         {
-            atStrJs = [NSString stringWithFormat:@"<a href='#'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",r,g,b,a,atStr];
+            atStrJs = [NSString stringWithFormat:@"%@'#'style='color:rgba(%zd,%zd,%zd,%f);text-decoration:none'>%@</a>",aString,r,g,b,a,atStr];
             
         }
     }
@@ -227,9 +257,14 @@
     {
         NSString *urlStr = [textStr substringWithRange:result.range];
         
-        NSString *hrefStr = [textStr substringWithRange:NSMakeRange((result.range.location-9), 9)];
-        
-        if (!([hrefStr rangeOfString:@"href="].length>0 ||[hrefStr rangeOfString:@"src="].length>0))
+        NSInteger location = result.range.location - 1- aString.length;
+        if (location<0)
+        {
+            location = 0;
+        }
+        NSString *hrefStr = [textStr substringWithRange:NSMakeRange(location, aString.length )];
+
+        if (!([hrefStr rangeOfString:aString].length>0 ||[hrefStr rangeOfString:imgString].length>0))
         {
             index = [str rangeOfString:textStr].location;
             self.urlRange = NSMakeRange(index + result.range.location,result.range.length);
@@ -242,6 +277,32 @@
     
     return nil;
 
+}
+
+//判断是否标签内部链接
+-(BOOL)isHtmlTagUrlWithSubstring:(NSString*)subString
+{
+    NSRange range = [self.text rangeOfString:subString];
+    
+    if (range.length>0)
+    {
+        NSInteger location = range.location - 1- aString.length;
+        if (location<0)
+        {
+            location = 0;
+        }
+        
+        NSString *hrefStr = [self.text substringWithRange:NSMakeRange(location, aString.length)];
+        
+        if (([hrefStr rangeOfString:aString].length>0 ||[hrefStr rangeOfString:imgString].length>0))
+        {
+
+            return YES;
+        }
+        
+
+    }
+    return NO;
 }
 
 

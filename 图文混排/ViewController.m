@@ -19,15 +19,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
-
-    
-    self.MyWebView.text = @"http://www.baidu.com圆圈勾勒成指纹 印在我的嘴唇 回忆苦涩的吻痕 是树根 春去秋来的茂盛 却遮住了黄昏 寒夜剩我一个人 等清晨 世间最毒的仇恨 是有缘却无分 可惜你从未心疼 我的笨 荒草丛生的青春 倒也过的安稳 代替你陪着我的 是年轮 数着一圈圈年轮 我认真 将心事都封存 密密麻麻是我的自尊 修改一次次离分 我承认 曾幻想过永恒 可惜从没人陪我演这剧本  \r\n 圆圈勾勒成指纹 印在我的嘴唇 回忆苦涩的吻痕 是树根 春去秋来的茂盛13634679713 却遮住了黄昏 寒夜剩我一个人 等清晨 世间最毒的仇恨 是有缘却无分 可惜你从未心疼 我的笨 荒草丛生的青春 倒也过的安稳 代替你陪着我的 是年轮 数着一圈圈年轮 我认真 将心事都封存 密密麻麻是我的自尊 修改一次次离分 我承认 曾幻想过永恒 可惜从没人陪我演这剧本 \n 一圈圈年轮 我认真 将心事都封存 密密麻麻是我的自尊 修改一次次离分 我承认 曾幻想过永恒 可惜从没人陪我演这剧本   可惜从没人陪我演这剧本http://www.weibo.com http://www.QQ.com";
-    NSLog(@"%zd",self.MyWebView.text.length);
+    self.MyWebView.text = @"http://www.baidu.com圆圈勾勒成指纹 印在我的嘴唇 回忆苦涩的吻痕 是树根 春去秋来的茂盛 却遮住了黄昏 寒夜剩我一个人 等清晨 世间最毒的仇恨 是有缘却无分 可惜你从未心疼 我的笨 荒草丛生的青春 倒也过的安稳 代替你陪着我的 是年轮 数着一圈圈年轮 我认真 将心事都封存 密密麻麻是我的自尊 修改一次次离分 我承认 曾幻想过永恒 可惜从没人陪我演这剧本  \r\n 圆圈勾勒成指纹 印在我的嘴唇 回忆苦涩的吻痕 是树根 春去秋来的茂盛13634679713 却遮住了黄昏 寒夜剩我一个人 等清晨 世间最毒的仇恨 是有缘却无分 可惜你从未心疼 我的笨 荒草丛生的青春 倒也过的安稳 代替你陪着我的 是年轮 数着一圈圈年轮 我认真 将心事都封存 密密麻麻是我的自尊 修改一次次离分 我承认 曾幻想过永恒 可惜从没人陪我演这剧本 \n 一圈圈年轮 我认真 将心事都封存 密密麻麻是我的自尊 修改一次次离分 我承认 曾幻想过永恒 可惜从没人陪我演这剧本 78293467@qq.com  可惜从没人陪我演这剧本http://www.weibo.com http://www.QQ.com";
     self.MyWebView.fontSize = 15;
     [self.MyWebView setBackColorWithR:255 G:255 B:0 A:0.2];
     
-//    [self.MyWebView setUrlName:@"#网页链接" andColorR:0 G:255 B:0 A:1 underline:YES];
+    [self.MyWebView setUrlName:@"#网页链接" andColorR:0 G:255 B:0 A:1 underline:YES];
     
     //插入图片
     [self.MyWebView insertImage:@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1485742601&di=23c9814bfc4d3af2337831f1539ef990&src=http://img.zcool.cn/community/01b76b567269176ac725ad90332d60.jpg" withUrl:nil withSubStrAgo:@"等清晨"];
@@ -49,7 +45,14 @@
     
     [self.MyWebView replaceAtStr:@"微博" AtStrColorR:255 G:0 B:0 A:1 Url:@"http://www.weibo.com" SubStr:@"http://www.weibo.com"];
     
+    
+    [self.MyWebView replaceAtStr:@"邮箱" AtStrColorR:255 G:10 B:0 A:1 Url:@"mailto://78293467@qq.com" SubStr:@"78293467@qq.com"];
+    
     [self.MyWebView setUrlName:@"#网页链接" andColorR:0 G:255 B:0 A:1 underline:YES];
+    
+    CGRect myFrame = self.MyWebView.frame;
+    myFrame.size.height = self.MyWebView.height;
+    self.MyWebView.frame = myFrame;
 
 }
 
