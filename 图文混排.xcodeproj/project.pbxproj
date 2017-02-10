@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1816467F1E4D8938009806BB /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816467E1E4D8938009806BB /* TableViewController.m */; };
+		181646821E4D8969009806BB /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181646811E4D8969009806BB /* TableViewCell.m */; };
 		1818756B1E4C66400027F539 /* friendsRecommentIcon-click@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1818756A1E4C66400027F539 /* friendsRecommentIcon-click@2x.png */; };
-		1818757F1E4CA4CF0027F539 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818757E1E4CA4CF0027F539 /* TableViewController.m */; };
 		188F32BF1E3DED6700476608 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 188F32BE1E3DED6700476608 /* main.m */; };
 		188F32C21E3DED6700476608 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 188F32C11E3DED6700476608 /* AppDelegate.m */; };
 		188F32C51E3DED6700476608 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188F32C41E3DED6700476608 /* ViewController.m */; };
@@ -19,9 +20,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1816467D1E4D8938009806BB /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		1816467E1E4D8938009806BB /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		181646801E4D8969009806BB /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
+		181646811E4D8969009806BB /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
 		1818756A1E4C66400027F539 /* friendsRecommentIcon-click@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "friendsRecommentIcon-click@2x.png"; sourceTree = "<group>"; };
-		1818757D1E4CA4CF0027F539 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewController.h; path = ../TableViewController.h; sourceTree = "<group>"; };
-		1818757E1E4CA4CF0027F539 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewController.m; path = ../TableViewController.m; sourceTree = "<group>"; };
 		188F32BA1E3DED6700476608 /* 图文混排.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "图文混排.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		188F32BE1E3DED6700476608 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		188F32C01E3DED6700476608 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -68,8 +71,10 @@
 		181875801E4CA7CB0027F539 /* tableViewController */ = {
 			isa = PBXGroup;
 			children = (
-				1818757D1E4CA4CF0027F539 /* TableViewController.h */,
-				1818757E1E4CA4CF0027F539 /* TableViewController.m */,
+				1816467D1E4D8938009806BB /* TableViewController.h */,
+				1816467E1E4D8938009806BB /* TableViewController.m */,
+				181646801E4D8969009806BB /* TableViewCell.h */,
+				181646811E4D8969009806BB /* TableViewCell.m */,
 			);
 			name = tableViewController;
 			sourceTree = "<group>";
@@ -189,9 +194,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				188F32C51E3DED6700476608 /* ViewController.m in Sources */,
+				181646821E4D8969009806BB /* TableViewCell.m in Sources */,
 				188F32C21E3DED6700476608 /* AppDelegate.m in Sources */,
 				188F32D61E3E08C100476608 /* SHTextView.m in Sources */,
-				1818757F1E4CA4CF0027F539 /* TableViewController.m in Sources */,
+				1816467F1E4D8938009806BB /* TableViewController.m in Sources */,
 				188F32BF1E3DED6700476608 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
